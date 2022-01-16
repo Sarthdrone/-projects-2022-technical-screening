@@ -1,8 +1,8 @@
 var assert = require("assert")
 // Given an array of numbers, return a new array so that positive and negative
 // numbers alternate. You can assume that 0 is a positive number. Within the
-// positive and negative numbers, you must keep their relative order. You are 
-// guaranteed the number of positive and negative numbers will not differ by more 
+// positive and negative numbers, you must keep their relative order. You are Within the
+// positive and negative numbers, you must keep their relative ordeore 
 // than 1.
 
 // =====Example 1
@@ -19,7 +19,7 @@ var assert = require("assert")
 // in the same relative order.
 
 // =====Example 3
-// Input: [0, -3, 3, -1, 1, -1]
+// Input: [0, -3, 3, -1, 1, -1] -> [-3, 0, -1, 3, -1, 1]
 // Output #1: [0, -3, 3, -1, 1, -1]
 // Output #2: [-3, 0, -1, 3, -1, 1]
 // Explanation: There are 2 possible answers which satisfy the problem's constraints.
@@ -32,7 +32,50 @@ var assert = require("assert")
 
 const altNumbers = (numArray) => {
     // TODO: COMPLETE THIS FUNCTION
-    return [];
+    var no_pos = 0
+    var no_neg = 0
+    var i = 0;
+
+    //I need to find the sign that has more number of digits to pass a particular case of when I choose the sign with less number of digits to be at the first place of the array which would not satisfy the 1st condition.
+    while (i < numArray.length) {
+        if (numArray[i] > 0) {
+            no_pos++;
+        }  else {
+            no_neg++;
+        }
+        i++;
+    }
+    i = 0;
+// if number < 0 --> negative and if number > -1 || number => 0 then it is positive.
+    var sign = 0;
+
+    var pos_choose;
+
+    if (no_pos > no_neg) {
+        pos_choose = 1; //the first digit of the array that has to be returned by the function has to be of sign +ve.
+    } else {
+        pos_choose = 0; //the first digit of the array that has to be returned by the function has to be of sign -ve.
+    }
+
+    var new_array = new Array(numArray.length); 
+    var j = 0;
+    i = 0;
+    while (j < numArray.length) {
+        
+        while (i < numArray.length) {
+            if(new_array[i] >= 0 && pos_choose == 1) {
+                new_array[j] = numArray[i]; 
+                pos_choose--;               
+            } else if (new_array[i] < 0 && pos_choose == 0) {
+                new_array[j] = numArray[i];
+                pos_choose++;
+            }
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+    return new_array;
 }
 
 module.exports = { altNumbers } // Do not modify this line
@@ -43,11 +86,17 @@ module.exports = { altNumbers } // Do not modify this line
 // If successful, no output should appear. If unsuccessful, you should see 
 // assertion errors being thrown.
 
+
+//Trying to print my array
+
+//
+
 let array1 = [1, -3, -8, -5, 10]
 array1 = altNumbers(array1)
 const answer1 = [-3, 1, -8, 10, -5]
 for (let i = 0; i < array1.length; i++) {
-    assert(array1[i] === answer1[i])
+    console.log(array1[i]);
+    assert(array1[i] == answer1[i])
 }
 
 let array2 = [3, 0, 0, -5, -2]
@@ -90,3 +139,17 @@ const answer6 = [-1, 5, -2, 0, -3, 3, -4]
 for (let i = 0; i < array6.length; i++) {
     assert(array6[i] === answer6[i])
 }
+
+
+
+/*
+conditions:
+1. positive and negative numbers alternate
+2. within the positive and negative numbers, you must maintain the order.
+
+
+
+solution:
+1. start with the type of number that is one more than the other(type-> +ve and -ve)-> because if it's not done, there would be cases where condition 1 wouldn't be satisfied
+2. 
+*/
